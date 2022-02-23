@@ -1,18 +1,20 @@
 <?php
 
-require_once _PS_MODULE_DIR_ . '/mdn_blocks/classes/BlocksModel.php';
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+require_once _PS_MODULE_DIR_ . '/mdn_blocks/classes/BlocksImageModel.php';
 
 
-class AdminBlocksController extends ModuleAdminController
+class AdminBlocksImageController extends ModuleAdminController
 {
 
     public function __construct() {
         $this->bootstrap = true;
         $this->lang = true;
 
-        $this->table = BlocksModel::$definition['table']; //Table de l'objet
-        $this->identifier = BlocksModel::$definition['primary']; //Clé primaire de l'objet
-        $this->className = BlocksModel::class; //Classe de l'objet
+        $this->table = BlocksImageModel::$definition['table']; //Table de l'objet
+        $this->identifier = BlocksImageModel::$definition['primary']; //Clé primaire de l'objet
+        $this->className = BlocksImageModel::class; //Classe de l'objet
 
         parent::__construct();
 
@@ -30,7 +32,7 @@ class AdminBlocksController extends ModuleAdminController
                 'align' => 'left',
                 'callback'=>'ceciestuntest'
             ],
-            'active_block' => [
+            'active_image' => [
                 'title' => $this->module->l('Actif ?'),
                 'lang' => true,
                 'align' => 'left',
@@ -50,10 +52,32 @@ class AdminBlocksController extends ModuleAdminController
      * @return string
      */
     public function ceciestuntest($value,$row){
-        return '{widget name="mdn_blocks" hook="'.$value.'"}';
+        return '{widget name="mdn_blocks" type="image" hook="'.$value.'"}';
     }
 
     public function postProcess() {
+    //    dump(Tools::getAllValues(), $_FILES);
+
+        foreach (['image'] as $img) {
+            if (!empty($_FILES[$img]) && !empty($_FILES[$img]['tmp_name'])) {
+                /** @var $uploadedFile UploadedFile */
+                $uploadedFile = new UploadedFile($_FILES[$img]['tmp_name'], $_FILES[$img]['name']);
+                if (!empty($uploadedFile) && $uploadedFile->getBasename() != "") {
+                    if (!$uploadedFile->isValid()) {
+                    } else {
+                        $dirName = ($uploadedFile->getClientOriginalName());
+                        $folder = _PS_CORE_IMG_DIR_ . 'bloc_image' . DIRECTORY_SEPARATOR;
+
+                        $file_name = $dirName;
+                        $path = $folder . $file_name;
+                        if (!$uploadedFile->move($folder, $file_name)) {
+                        }
+                    }
+                }
+            }
+        }
+
+       // die();
         parent::postProcess();
     }
 
@@ -84,9 +108,9 @@ class AdminBlocksController extends ModuleAdminController
                     'label' => $this->module->l('ID Technique'),
                     'name' => 'technical_id',
                     'size' => 200,
-                    'required' => false,
+                    'required' => true,
                     'lang' => false,
-                    "desc" => "Cet ID est utilisé dans le code pour appeller le bloc sur diverses pages"
+                    "desc" => "Cet ID est utilisé dans le code pour appeller l'image"
                 ],
                 [
                     'type' => 'text',
@@ -105,20 +129,26 @@ class AdminBlocksController extends ModuleAdminController
                     'lang' => false
                 ],
                 [
-                    'label' => $this->module->l('Contenu'),
-                    'type' => 'textarea',
-                    'name' => 'content',
+                    'type' => 'file',
+                    'label' => $this->module->l('Image (front-office)'),
+                    'name' => 'image',
+                    'size' => 200,
                     'required' => true,
-                    'lang' => true, //Flag pour utilisation des langues
-                    'rows' => 5,
-                    'cols' => 40,
-                    'autoload_rte' => true,
+                    'lang' => true
+                ],
+                [
+                    'type' => 'text',
+                    'label' => $this->module->l('Description de l\'image (front-office)'),
+                    'name' => 'image_alt',
+                    'size' => 200,
+                    'required' => false,
+                    'lang' => true
                 ],
 
                 array(
                     'type' => 'select',
                     'label' => $this->l('Actif'),
-                    'name' => 'active_block',
+                    'name' => 'active_image',
                     'required' => true,
                     'options' => array(
                         'query' => $options = array(
