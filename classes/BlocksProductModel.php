@@ -1,7 +1,7 @@
 <?php
-class BlocksModel extends ObjectModel {
+class BlocksProductModel extends ObjectModel {
     public static $definition = array(
-        'table' => 'mdn_blocks',
+        'table' => 'mdn_blocks_product',
         'primary' => 'id',
         // 'multishop' => true,
         // 'multilang' => true,
@@ -12,10 +12,10 @@ class BlocksModel extends ObjectModel {
             'technical_id' =>        array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
             'label' =>        array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => true),
             'class' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
-
-            'content' =>            array('type' => self::TYPE_HTML,    'validate' => 'isString', 'required' => false, 'lang' => true),
             'template' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
-
+            'selector_type' =>            array('type' => self::TYPE_STRING,    'validate' => 'isString', 'required' => false, 'lang' => false),
+            'products' =>            array('type' => self::TYPE_STRING,    'validate' => 'isString', 'required' => false, 'lang' => true),
+            'product_limit' =>            array('type' => self::TYPE_INT,    'validate' => 'isUnsignedInt', 'required' => false, 'lang' => false),
             'active_block' =>       array('type' => self::TYPE_BOOL,    'validate' => 'isUnsignedInt', 'required' => false),
         ),
     );
@@ -24,7 +24,10 @@ class BlocksModel extends ObjectModel {
     public $technical_id;
     public $label;
     public $class;
-    public $content;
+    public $products;
+    public $product_limit;
+    public $selector_type;
+    public $template;
     public $active_block;
 
     public function __construct($id_primario = null, $id_lang = null)
@@ -42,6 +45,8 @@ class BlocksModel extends ObjectModel {
             `label` VARCHAR(256) NOT NULL,
             `class` VARCHAR(256) NOT NULL, 
             `template` VARCHAR(256) NOT NULL, 
+            `selector_type` VARCHAR(256) NOT NULL, 
+            `product_limit` int(5) NOT NULL, 
             `active_block` int(1) NOT NULL, 
             PRIMARY KEY (`id`)
             ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8';
@@ -50,7 +55,7 @@ class BlocksModel extends ObjectModel {
             `id` int(10) unsigned NOT NULL auto_increment,
             `id_shop` int(10) unsigned NOT NULL,
             `id_lang` int(10) NOT NULL, 
-            `content` text NOT NULL,
+            `products` VARCHAR(512) NOT NULL,
             PRIMARY KEY (`id`, `id_lang`) 
             ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8';
 

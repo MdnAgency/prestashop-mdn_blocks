@@ -1,7 +1,7 @@
 <?php
-class BlocksModel extends ObjectModel {
+class BlocksCategoryModel extends ObjectModel {
     public static $definition = array(
-        'table' => 'mdn_blocks',
+        'table' => 'mdn_blocks_category',
         'primary' => 'id',
         // 'multishop' => true,
         // 'multilang' => true,
@@ -12,10 +12,8 @@ class BlocksModel extends ObjectModel {
             'technical_id' =>        array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
             'label' =>        array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => true),
             'class' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
-
-            'content' =>            array('type' => self::TYPE_HTML,    'validate' => 'isString', 'required' => false, 'lang' => true),
             'template' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
-
+            'categories' =>            array('type' => self::TYPE_STRING,    'validate' => 'isString', 'required' => false, 'lang' => true),
             'active_block' =>       array('type' => self::TYPE_BOOL,    'validate' => 'isUnsignedInt', 'required' => false),
         ),
     );
@@ -24,7 +22,8 @@ class BlocksModel extends ObjectModel {
     public $technical_id;
     public $label;
     public $class;
-    public $content;
+    public $categories;
+    public $template;
     public $active_block;
 
     public function __construct($id_primario = null, $id_lang = null)
@@ -50,7 +49,7 @@ class BlocksModel extends ObjectModel {
             `id` int(10) unsigned NOT NULL auto_increment,
             `id_shop` int(10) unsigned NOT NULL,
             `id_lang` int(10) NOT NULL, 
-            `content` text NOT NULL,
+            `categories` VARCHAR(256) NOT NULL,
             PRIMARY KEY (`id`, `id_lang`) 
             ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8';
 
