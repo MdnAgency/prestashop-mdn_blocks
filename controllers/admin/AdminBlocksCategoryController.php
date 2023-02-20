@@ -29,7 +29,9 @@ class AdminBlocksCategoryController extends ModuleAdminBlockController
     }
 
     public function postProcess() {
-        $_POST['categories'] = implode(",", $_POST['categories']);
+        if(isset($_POST['categories'])) {
+            $_POST['categories'] = implode(",", $_POST['categories']);
+        }
 
        // die();
         parent::postProcess();
