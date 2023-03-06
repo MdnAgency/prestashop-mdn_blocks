@@ -14,7 +14,7 @@ class BlocksImageModel extends ObjectModel {
             'class' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false),
             'image' =>            array('type' => self::TYPE_STRING,    'validate' => 'isString', 'required' => false, 'lang' => true),
             'image_alt' =>         array('type' => self::TYPE_STRING,  'validate' => 'isString', 'required' => false,  'lang' => true),
-            'active_image' =>       array('type' => self::TYPE_BOOL,    'validate' => 'isUnsignedInt', 'required' => false),
+            'active_block' =>       array('type' => self::TYPE_BOOL,    'validate' => 'isUnsignedInt', 'required' => false),
         ),
     );
 
@@ -26,7 +26,7 @@ class BlocksImageModel extends ObjectModel {
 
     public $image;
 
-    public $active_image;
+    public $active_block;
 
     public function __construct($id_primario = null, $id_lang = null)
     {
@@ -42,7 +42,7 @@ class BlocksImageModel extends ObjectModel {
             `technical_id` VARCHAR(256) NOT NULL,
             `label` VARCHAR(256) NOT NULL,
             `class` VARCHAR(256) NOT NULL, 
-            `active_image` int(1) NOT NULL, 
+            `active_block` int(1) NOT NULL, 
             PRIMARY KEY (`id`)
             ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8';
 
