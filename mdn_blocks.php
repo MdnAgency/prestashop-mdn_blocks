@@ -57,7 +57,7 @@ class Mdn_Blocks extends Module implements WidgetInterface {
         $this->name = 'mdn_blocks';
         $this->author = 'Maison du Net - Loris';
         $this->tab = 'front_office_features';
-        $this->version = '1.3.0';
+        $this->version = '1.3.1';
         $this->bootstrap = true;
         $this->ps_versions_compliancy = array('min' => '1.7.7.0', 'max' => _PS_VERSION_);
         $this->displayName = "Blocs éditables";

@@ -25,6 +25,8 @@ class BlocksModel extends ObjectModel {
     public $label;
     public $class;
     public $content;
+
+    public $template;
     public $active_block;
 
     public function __construct($id_primario = null, $id_lang = null)
