@@ -147,11 +147,19 @@ class Mdn_Blocks extends Module implements WidgetInterface {
                     ];
                 }, $results->getResults()), 'lang' => $lang];
             case "category":
-                return ['results' => array_map(function ($v) use ($lang) {
-                    $categories = explode(",", $v->categories[$lang]);
-                    $categories = array_map(function ($v) use ($lang) {
-                        return new Category($v, $lang);
-                    }, $categories);
+                return ['results' => array_map(function ($v) use ($lang, $configuration) {
+                    $listing_category = !empty($configuration['categories']) ? $configuration['categories'] : $v->categories[$lang];
+
+                    if($listing_category != "") {
+                        $categories = explode(",", $listing_category);
+                        $categories = array_map(function ($v) use ($lang) {
+                            return new Category($v, $lang);
+                        }, $categories);
+                        $categories = array_filter($categories, function ($v) { return $v->id !== null; });
+                    }
+                    else {
+                        $categories = [];
+                    }
                     return [
                         'template' => $v->template,
                         'categories' => $categories,

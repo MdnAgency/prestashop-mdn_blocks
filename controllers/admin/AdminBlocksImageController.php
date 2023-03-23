@@ -28,8 +28,6 @@ class AdminBlocksImageController extends ModuleAdminBlockController
     }
 
     public function postProcess() {
-        //    dump(Tools::getAllValues(), $_FILES);
-
         foreach (['image'] as $img) {
             if (!empty($_FILES[$img]) && !empty($_FILES[$img]['tmp_name'])) {
                 /** @var $uploadedFile UploadedFile */
@@ -49,7 +47,6 @@ class AdminBlocksImageController extends ModuleAdminBlockController
             }
         }
 
-        // die();
         parent::postProcess();
     }
 
