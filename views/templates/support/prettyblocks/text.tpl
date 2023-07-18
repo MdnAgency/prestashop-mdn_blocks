@@ -1,0 +1,1 @@
+{widget name="mdn_blocks" type="text" hook=$block.settings.key}
